@@ -219,25 +219,283 @@ body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-se
 .ft{font-family:'Ma Shan Zheng',cursive;font-size:19px;color:var(--gold);letter-spacing:3px;margin-bottom:6px;}
 .fd{color:rgba(245,233,196,.38);font-size:10.5px;letter-spacing:.8px;line-height:1.9;}
 
-@media(min-width:480px){.sec{max-width:480px;margin:0 auto;}.nav{justify-content:center;}}
+/* ─── GPS BAR ─── */
+.gps-bar{
+  background:linear-gradient(90deg,#0E0A05 0%,#1A1208 100%);
+  padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid rgba(201,168,76,.2);
+  position:relative;z-index:199;
+}
+.gps-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+.gps-pin{font-size:18px;flex-shrink:0;animation:pinBob 2s ease-in-out infinite;}
+@keyframes pinBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.gps-text{flex:1;min-width:0;}
+.gps-label{font-size:10px;color:rgba(245,233,196,.45);letter-spacing:1px;margin-bottom:1px;}
+.gps-dist{font-family:'Noto Serif SC',serif;font-size:13.5px;color:var(--gold-l);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gps-dist strong{color:#fff;font-size:16px;}
+.gps-dist .unit{font-size:11px;color:var(--gold);font-weight:400;}
+.gps-nav-btn{
+  flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);
+  color:var(--ink);border:none;border-radius:20px;
+  padding:7px 14px;font-size:12px;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+  font-family:'Noto Serif SC',serif;
+  box-shadow:0 2px 8px rgba(201,168,76,.35);
+  transition:transform .15s,box-shadow .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.gps-nav-btn:active{transform:scale(.95);}
+.gps-status{font-size:10px;color:rgba(245,233,196,.35);margin-top:1px;}
+
+/* ─── MONK SCENE ─── */
+.monk-scene{
+  position:relative;z-index:1;
+  margin:0 auto;
+  width:100%;max-width:340px;
+  height:130px;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+/* mountains reimagined as SVG below, monk sits on top */
+.monk-wrap{
+  position:absolute;
+  bottom:0;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;
+  z-index:10;
+}
+.monk-svg-box{position:relative;width:54px;height:54px;}
+/* +福 floating texts */
+.fu-container{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:120px;height:60px;pointer-events:none;
+  overflow:visible;
+}
+.fu-text{
+  position:absolute;
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:16px;color:var(--gold-l);
+  text-shadow:0 0 8px rgba(201,168,76,.7);
+  pointer-events:none;
+  opacity:0;
+  white-space:nowrap;
+  top:0;left:50%;transform:translateX(-50%);
+}
+.fu-text.animate{
+  animation:fuFloat 1.8s ease-out forwards;
+}
+@keyframes fuFloat{
+  0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+  60%{opacity:1;transform:translateX(-50%) translateY(-40px) scale(1.1);}
+  100%{opacity:0;transform:translateX(-50%) translateY(-70px) scale(0.8);}
+}
+.monk-btn-area{
+  display:flex;align-items:center;gap:10px;
+  margin-top:6px;
+  position:relative;z-index:10;
+}
+.add-fu-btn{
+  background:linear-gradient(135deg,var(--red) 0%,#5A0E0E 100%);
+  color:var(--gold-pale);
+  border:1px solid rgba(201,168,76,.4);
+  border-radius:20px;padding:7px 18px;
+  font-family:'Ma Shan Zheng',cursive;font-size:15px;
+  cursor:pointer;letter-spacing:2px;
+  box-shadow:0 3px 10px rgba(139,26,26,.5);
+  transition:transform .12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.add-fu-btn:active{transform:scale(.93);}
+.fu-count-badge{
+  background:rgba(201,168,76,.15);
+  border:1px solid rgba(201,168,76,.35);
+  border-radius:10px;padding:4px 10px;
+  font-family:'Noto Serif SC',serif;font-size:11px;
+  color:var(--gold);
+}
+/* Wood block knock animation */
+.monk-body{cursor:pointer;transition:transform .05s;}
+.monk-body.bonk{animation:bonk .18s ease both;}
+@keyframes bonk{0%{transform:rotate(0)}30%{transform:rotate(-12deg)}70%{transform:rotate(8deg)}100%{transform:rotate(0)}}
+
+/* ─── SELFIE SECTION ─── */
+.selfie-strip{
+  background:linear-gradient(135deg,#1A1208 0%,#2D1B0E 100%);
+  border-radius:var(--radius);
+  padding:16px;margin-bottom:14px;
+  overflow:hidden;position:relative;
+}
+.selfie-strip::before{
+  content:'拍';position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(90deg);
+  font-family:'Ma Shan Zheng',cursive;font-size:70px;color:rgba(201,168,76,.05);
+}
+.selfie-title{
+  font-family:'Noto Serif SC',serif;font-weight:600;font-size:14px;
+  color:var(--gold);margin-bottom:4px;display:flex;align-items:center;gap:6px;
+}
+.selfie-sub{font-size:11.5px;color:rgba(245,233,196,.55);margin-bottom:12px;line-height:1.6;}
+.selfie-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.selfie-spot{
+  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.18);
+  border-radius:9px;padding:10px 6px;text-align:center;
+  cursor:pointer;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;
+}
+.selfie-spot:active{background:rgba(201,168,76,.15);transform:scale(.95);}
+.selfie-spot-icon{font-size:24px;margin-bottom:4px;}
+.selfie-spot-name{font-size:10px;color:rgba(245,233,196,.75);line-height:1.4;font-family:'Noto Serif SC',serif;}
+.selfie-spot-tag{font-size:9px;color:var(--gold);margin-top:3px;opacity:.7;}
+/* Selfie modal */
+.selfie-modal-bg{display:none;position:fixed;inset:0;background:rgba(5,3,1,.8);z-index:600;align-items:flex-end;backdrop-filter:blur(4px);}
+.selfie-modal-bg.show{display:flex;}
+.selfie-modal{
+  background:var(--ink);
+  border-radius:24px 24px 0 0;width:100%;
+  padding:20px 18px 44px;
+  animation:slideUp .3s ease both;
+  position:relative;
+}
+.selfie-modal-title{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:var(--gold-l);letter-spacing:3px;margin-bottom:2px;}
+.selfie-modal-sub{font-size:11.5px;color:rgba(245,233,196,.5);margin-bottom:16px;}
+.selfie-frame{
+  background:linear-gradient(160deg,#0E0A05,#2D1B0E);
+  border:2px solid rgba(201,168,76,.3);
+  border-radius:14px;
+  height:220px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;margin-bottom:14px;
+}
+.selfie-frame-svg{width:100%;height:100%;}
+.selfie-frame-label{
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);
+  color:var(--gold);font-size:10px;padding:3px 10px;border-radius:10px;
+  white-space:nowrap;letter-spacing:1px;font-family:'Noto Serif SC',serif;
+}
+.selfie-frame-you{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  text-align:center;
+}
+.selfie-frame-avatar{font-size:36px;}
+.selfie-frame-you-label{font-size:9px;color:rgba(245,233,196,.5);margin-top:2px;}
+.selfie-action-row{display:flex;gap:10px;}
+.selfie-share-btn{
+  flex:1;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);
+  color:var(--ink);border:none;border-radius:10px;padding:12px;
+  font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;
+  cursor:pointer;text-align:center;
+}
+.selfie-close-btn{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:rgba(245,233,196,.6);border-radius:10px;padding:12px 16px;
+  font-size:13px;cursor:pointer;
+}
+.selfie-toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  background:rgba(26,18,8,.95);border:1px solid var(--gold);
+  color:var(--gold-pale);padding:10px 20px;border-radius:20px;
+  font-size:12.5px;font-family:'Noto Serif SC',serif;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+  z-index:700;white-space:nowrap;
+}
+.selfie-toast.show{opacity:1;}
+
+@media(min-width:480px){.sec{max-width:480px;margin:0 auto;}.nav{justify-content:center;}.gps-bar{max-width:480px;margin:0 auto;}}
 </style>
 </head>
 <body>
+
+<!-- GPS BAR -->
+<div class="gps-bar" id="gpsBar">
+  <div class="gps-left">
+    <div class="gps-pin">📍</div>
+    <div class="gps-text">
+      <div class="gps-label">当前位置距五台山显通寺</div>
+      <div class="gps-dist" id="gpsDist"><strong>--</strong> <span class="unit">获取中…</span></div>
+      <div class="gps-status" id="gpsStatus">正在定位，请稍候</div>
+    </div>
+  </div>
+  <button class="gps-nav-btn" id="gpsNavBtn" onclick="startNav()">🧭 一键导航</button>
+</div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-badge">🏔 国家AAAAA级旅游景区 · 世界文化遗产</div>
   <h1>五台山</h1>
   <p class="hero-sub">清凉胜境 · 文殊道场 · 华北屋脊 · 中国佛教四大名山之首</p>
-  <svg class="hero-svg" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="mg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:rgba(201,168,76,0.45)"/><stop offset="100%" style="stop-color:rgba(201,168,76,0.08)"/></linearGradient></defs>
-    <ellipse cx="40" cy="75" rx="38" ry="48" fill="url(#mg)" opacity=".7"/>
-    <ellipse cx="88" cy="75" rx="46" ry="62" fill="url(#mg)" opacity=".85"/>
-    <ellipse cx="160" cy="75" rx="52" ry="76" fill="rgba(201,168,76,0.55)"/>
-    <ellipse cx="232" cy="75" rx="46" ry="60" fill="url(#mg)" opacity=".85"/>
-    <ellipse cx="282" cy="75" rx="38" ry="46" fill="url(#mg)" opacity=".7"/>
-    <text x="155" y="30" font-family="serif" font-size="10" fill="rgba(201,168,76,0.35)" text-anchor="middle">北台 3058m</text>
-  </svg>
+
+  <!-- 五峰 + 中间木鱼小和尚 -->
+  <div class="monk-scene">
+    <!-- mountains SVG backdrop -->
+    <svg style="position:absolute;bottom:0;left:0;width:100%;height:100%;" viewBox="0 0 340 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="mg2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:rgba(201,168,76,0.45)"/>
+          <stop offset="100%" style="stop-color:rgba(201,168,76,0.06)"/>
+        </linearGradient>
+        <linearGradient id="mg3" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:rgba(201,168,76,0.6)"/>
+          <stop offset="100%" style="stop-color:rgba(201,168,76,0.1)"/>
+        </linearGradient>
+      </defs>
+      <!-- 南台 -->
+      <ellipse cx="34" cy="130" rx="40" ry="55" fill="url(#mg2)" opacity=".65"/>
+      <text x="34" y="76" font-family="serif" font-size="8.5" fill="rgba(201,168,76,0.5)" text-anchor="middle">南台</text>
+      <!-- 东台 -->
+      <ellipse cx="90" cy="130" rx="48" ry="72" fill="url(#mg2)" opacity=".8"/>
+      <text x="90" y="58" font-family="serif" font-size="8.5" fill="rgba(201,168,76,0.5)" text-anchor="middle">东台</text>
+      <!-- 北台 (center/tallest) -->
+      <ellipse cx="170" cy="130" rx="56" ry="96" fill="url(#mg3)"/>
+      <text x="170" y="34" font-family="serif" font-size="9" fill="rgba(201,168,76,0.7)" text-anchor="middle">北台 3058m</text>
+      <!-- 西台 -->
+      <ellipse cx="250" cy="130" rx="48" ry="70" fill="url(#mg2)" opacity=".8"/>
+      <text x="250" y="60" font-family="serif" font-size="8.5" fill="rgba(201,168,76,0.5)" text-anchor="middle">西台</text>
+      <!-- 中台 -->
+      <ellipse cx="308" cy="130" rx="40" ry="52" fill="url(#mg2)" opacity=".65"/>
+      <text x="308" y="78" font-family="serif" font-size="8.5" fill="rgba(201,168,76,0.5)" text-anchor="middle">中台</text>
+    </svg>
+
+    <!-- Monk + mallet + woodblock sitting on mountain center -->
+    <div class="monk-wrap">
+      <!-- floating +福 container -->
+      <div class="fu-container" id="fuContainer"></div>
+
+      <!-- Monk SVG (animated) -->
+      <div class="monk-svg-box" id="monkBody" onclick="bonkMonk()">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg" class="monk-body" id="monkSvg">
+          <!-- robe body -->
+          <ellipse cx="27" cy="38" rx="13" ry="12" fill="#8B1A1A" opacity=".9"/>
+          <!-- head -->
+          <circle cx="27" cy="21" r="9" fill="#D4A877"/>
+          <!-- monk face smile -->
+          <circle cx="24" cy="20" r="1.2" fill="#5A3010"/>
+          <circle cx="30" cy="20" r="1.2" fill="#5A3010"/>
+          <path d="M24 24 Q27 27 30 24" stroke="#5A3010" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <!-- ear dots -->
+          <circle cx="18" cy="21" r="2" fill="#C49060"/>
+          <circle cx="36" cy="21" r="2" fill="#C49060"/>
+          <!-- bald glint -->
+          <ellipse cx="24" cy="16" rx="3" ry="2" fill="rgba(255,255,255,0.18)" transform="rotate(-20,24,16)"/>
+          <!-- mallet arm -->
+          <line x1="36" y1="30" x2="46" y2="22" stroke="#8B6040" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- mallet head -->
+          <ellipse cx="47" cy="21" rx="4" ry="3" fill="#6B4020"/>
+          <!-- woodblock -->
+          <rect x="14" y="42" width="16" height="8" rx="3" fill="#8B5020"/>
+          <rect x="16" y="43" width="12" height="3" rx="1" fill="#A06030" opacity=".6"/>
+          <!-- robe collar -->
+          <path d="M20 32 Q27 28 34 32" stroke="#C9A84C" stroke-width="1" fill="none" opacity=".6"/>
+        </svg>
+      </div>
+      <!-- button row -->
+      <div class="monk-btn-area">
+        <button class="add-fu-btn" onclick="addFu()">＋添福</button>
+        <div class="fu-count-badge">福气 <span id="fuCount">0</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="hero-chips">
     <span class="chip">📍 山西忻州五台县</span>
     <span class="chip">🏔 海拔3058米</span>
@@ -276,6 +534,45 @@ body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-se
     <div class="stat"><div class="stat-n">1400+</div><div class="stat-l">建寺年历史</div></div>
     <div class="stat"><div class="stat-n">14</div><div class="stat-l">国保建筑</div></div>
     <div class="stat"><div class="stat-n">3万</div><div class="stat-l">日接待上限</div></div>
+  </div>
+
+  <!-- 地标合影 -->
+  <div class="slabel"><div class="slabel-dot">📸</div>和五台山地标来一张合影</div>
+  <div class="selfie-strip">
+    <div class="selfie-title">🤳 虚拟打卡合影</div>
+    <div class="selfie-sub">选择你心仪的地标场景，生成专属打卡合影，分享给朋友！</div>
+    <div class="selfie-grid">
+      <div class="selfie-spot" onclick="openSelfie('塔院寺大白塔','🗼','56.3米大白塔，五台山精神图腾')">
+        <div class="selfie-spot-icon">🗼</div>
+        <div class="selfie-spot-name">大白塔</div>
+        <div class="selfie-spot-tag">标志地标</div>
+      </div>
+      <div class="selfie-spot" onclick="openSelfie('北台叶斗峰顶','🏔','华北屋脊 3058m')">
+        <div class="selfie-spot-icon">🏔</div>
+        <div class="selfie-spot-name">北台顶</div>
+        <div class="selfie-spot-tag">华北屋脊</div>
+      </div>
+      <div class="selfie-spot" onclick="openSelfie('显通寺铜殿前','⛩','千年祖寺·东汉古刹')">
+        <div class="selfie-spot-icon">⛩</div>
+        <div class="selfie-spot-name">显通寺</div>
+        <div class="selfie-spot-tag">千年祖寺</div>
+      </div>
+      <div class="selfie-spot" onclick="openSelfie('东台望海峰云海日出','🌅','云海日出·最美台顶')">
+        <div class="selfie-spot-icon">🌅</div>
+        <div class="selfie-spot-name">东台日出</div>
+        <div class="selfie-spot-tag">云海奇观</div>
+      </div>
+      <div class="selfie-spot" onclick="openSelfie('菩萨顶俯瞰台怀镇','🏯','皇家御庙·俯瞰全景')">
+        <div class="selfie-spot-icon">🏯</div>
+        <div class="selfie-spot-name">菩萨顶</div>
+        <div class="selfie-spot-tag">皇家御庙</div>
+      </div>
+      <div class="selfie-spot" onclick="openSelfie('南台锦绣峰花海','🌸','百花盛开·锦绣花海')">
+        <div class="selfie-spot-icon">🌸</div>
+        <div class="selfie-spot-name">南台花海</div>
+        <div class="selfie-spot-tag">锦绣仙境</div>
+      </div>
+    </div>
   </div>
 
   <!-- 四季卡片 - 可点击展开 -->
@@ -841,8 +1138,34 @@ body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-se
   </div>
 </div>
 
+<!-- SELFIE MODAL -->
+<div class="selfie-modal-bg" id="selfieModalBg" onclick="closeSelfieModal(event)">
+  <div class="selfie-modal">
+    <div class="modal-handle"></div>
+    <div class="selfie-modal-title" id="selfieModalTitle">五台山打卡</div>
+    <div class="selfie-modal-sub" id="selfieModalSub">虚拟合影留念</div>
+    <div class="selfie-frame" id="selfieFrame">
+      <svg class="selfie-frame-svg" id="selfieSvg" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- dynamic bg will be injected -->
+      </svg>
+      <div class="selfie-frame-label" id="selfieFrameLabel">📍 五台山</div>
+      <div class="selfie-frame-you">
+        <div class="selfie-frame-avatar">🧑‍🦯</div>
+        <div class="selfie-frame-you-label">这里是你</div>
+      </div>
+    </div>
+    <div class="selfie-action-row">
+      <button class="selfie-share-btn" onclick="saveSelfie()">📤 保存 &amp; 分享打卡</button>
+      <button class="selfie-close-btn" onclick="closeSelfieModal(null)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="selfie-toast" id="selfieToast"></div>
+
 <script>
-// Tab switching
+// ── Tab switching ──
 function sw(id, el){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
@@ -851,7 +1174,7 @@ function sw(id, el){
   window.scrollTo({top:document.querySelector('.nav').offsetTop,behavior:'smooth'});
 }
 
-// Day plan switching
+// ── Day plan switching ──
 function sd(n, el){
   document.querySelectorAll('.dc').forEach(d=>d.classList.remove('on'));
   document.querySelectorAll('.db').forEach(b=>b.classList.remove('on'));
@@ -860,7 +1183,7 @@ function sd(n, el){
   el.classList.add('on');
 }
 
-// Season modals
+// ── Season modals ──
 function openSeason(s){
   const map={spring:'m-spring',summer:'m-summer',autumn:'m-autumn',winter:'m-winter'};
   document.getElementById(map[s]).classList.add('show');
@@ -872,9 +1195,304 @@ function closeSeason(e, id){
   document.body.style.overflow='';
 }
 
-// FAQ toggle
-function tFaq(el){
-  el.classList.toggle('open');
+// ── FAQ toggle ──
+function tFaq(el){ el.classList.toggle('open'); }
+
+// ══════════════════════════════════════
+// GPS LOCATION
+// ══════════════════════════════════════
+const WTS_LAT = 39.0792, WTS_LNG = 113.5647; // 五台山显通寺坐标
+
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371000, toR=Math.PI/180;
+  const dLat=(lat2-lat1)*toR, dLng=(lng2-lng1)*toR;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*toR)*Math.cos(lat2*toR)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function fmtDist(m){
+  if(m>=1000) return (m/1000).toFixed(1)+'<span class="unit"> 公里</span>';
+  return Math.round(m)+'<span class="unit"> 米</span>';
+}
+
+let userLat=null, userLng=null;
+
+function initGPS(){
+  if(!navigator.geolocation){
+    document.getElementById('gpsDist').innerHTML='<strong>--</strong> <span class="unit">定位不可用</span>';
+    document.getElementById('gpsStatus').textContent='请手动搜索导航';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    userLat=pos.coords.latitude;
+    userLng=pos.coords.longitude;
+    const dist=haversine(userLat,userLng,WTS_LAT,WTS_LNG);
+    document.getElementById('gpsDist').innerHTML='<strong>'+fmtDist(dist)+'</strong>';
+    document.getElementById('gpsStatus').textContent='📡 定位成功 · 点击右侧导航前往';
+  },err=>{
+    document.getElementById('gpsDist').innerHTML='<strong>--</strong>';
+    document.getElementById('gpsStatus').textContent='定位失败，请允许位置权限后刷新';
+  },{timeout:8000,maximumAge:60000});
+}
+
+function startNav(){
+  const label=encodeURIComponent('五台山显通寺');
+  // Try to open maps app; fallback to web maps
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
+  const android=/Android/.test(navigator.userAgent);
+  let url;
+  if(ios){
+    url=`maps://maps.apple.com/?daddr=${WTS_LAT},${WTS_LNG}&q=${label}`;
+  } else if(android){
+    url=`geo:${WTS_LAT},${WTS_LNG}?q=${WTS_LAT},${WTS_LNG}(${label})`;
+  } else {
+    url=`https://maps.google.com/maps?daddr=${WTS_LAT},${WTS_LNG}&q=${label}`;
+  }
+  window.open(url,'_blank');
+}
+
+initGPS();
+
+// ══════════════════════════════════════
+// MONK WOODBLOCK  木鱼小和尚
+// ══════════════════════════════════════
+let fuTotal = 0;
+let bonking = false;
+let lastBonkTime = 0;
+
+// Woodblock beat tempo tracking
+const beatInterval = 1200; // ms between auto beats
+let autoTimer = null;
+
+function startAutoMonk(){
+  if(autoTimer) return;
+  autoTimer = setInterval(()=>{
+    spawnFuFloat('+福', randomOffset());
+  }, beatInterval);
+}
+
+function randomOffset(){
+  return (Math.random()-0.5)*80;
+}
+
+function spawnFuFloat(text, xOffset){
+  const c = document.getElementById('fuContainer');
+  const el = document.createElement('div');
+  el.className = 'fu-text';
+  el.textContent = text;
+  el.style.left = (50 + xOffset/1.2)+'%';
+  el.style.transform = 'translateX(-50%)';
+  // randomize color slightly
+  const hues = ['#E8C96A','#FFD580','#F5E9C4','#C9A84C'];
+  el.style.color = hues[Math.floor(Math.random()*hues.length)];
+  el.style.fontSize = (14 + Math.random()*8)+'px';
+  c.appendChild(el);
+  requestAnimationFrame(()=>{
+    el.classList.add('animate');
+  });
+  el.addEventListener('animationend',()=>el.remove());
+}
+
+function bonkMonk(){
+  const svg = document.getElementById('monkSvg');
+  svg.classList.remove('bonk');
+  void svg.offsetWidth; // reflow
+  svg.classList.add('bonk');
+  svg.addEventListener('animationend',()=>svg.classList.remove('bonk'),{once:true});
+  // spawn a +福
+  spawnFuFloat('+福', randomOffset());
+  fuTotal++;
+  document.getElementById('fuCount').textContent = fuTotal;
+}
+
+function addFu(){
+  // tap button also triggers monk bonk + extra burst
+  bonkMonk();
+  // small extra burst
+  setTimeout(()=>spawnFuFloat('福', (Math.random()-0.5)*60), 180);
+}
+
+// Auto gentle animation - monk sways mallet every ~1.5s
+(function monkAutoSway(){
+  function sway(){
+    const svg = document.getElementById('monkSvg');
+    if(!svg) return;
+    svg.style.transition = 'transform 0.4s ease';
+    svg.style.transform = 'rotate(-6deg)';
+    setTimeout(()=>{
+      svg.style.transform = 'rotate(0deg)';
+      // occasional auto +福 puff
+      if(Math.random()<0.5) spawnFuFloat('福', (Math.random()-0.5)*50);
+    },400);
+    setTimeout(sway, 1400+Math.random()*400);
+  }
+  setTimeout(sway, 1000);
+})();
+
+// ══════════════════════════════════════
+// SELFIE / 合影
+// ══════════════════════════════════════
+const selfieScenes = {
+  '塔院寺大白塔': {
+    bg: ['#0E0A05','#1A1208'],
+    elements: `
+      <ellipse cx="160" cy="180" rx="140" ry="60" fill="#1E1810" opacity=".8"/>
+      <rect x="140" y="20" width="40" height="130" rx="6" fill="#E8D9BE" opacity=".9"/>
+      <ellipse cx="160" cy="18" rx="22" ry="22" fill="#F0E6D0"/>
+      <ellipse cx="160" cy="15" rx="14" ry="14" fill="#E8D0A0"/>
+      <circle cx="160" cy="8" r="6" fill="#C9A84C"/>
+      <rect x="138" y="148" width="44" height="8" rx="3" fill="#D4C090"/>
+      <text x="160" y="210" font-family="serif" font-size="11" fill="rgba(201,168,76,0.6)" text-anchor="middle">五台山大白塔 · 高56.3米</text>
+    `,
+    label:'🗼 塔院寺大白塔'
+  },
+  '北台叶斗峰顶': {
+    bg: ['#070510','#0E0A20'],
+    elements: `
+      <ellipse cx="160" cy="200" rx="160" ry="80" fill="#141020" opacity=".9"/>
+      <polygon points="60,180 160,20 260,180" fill="#1A1530" opacity=".8"/>
+      <polygon points="90,180 160,50 230,180" fill="#24203A"/>
+      <text x="160" y="42" font-family="serif" font-size="10" fill="rgba(201,168,76,0.8)" text-anchor="middle">北台 · 叶斗峰</text>
+      <text x="160" y="56" font-family="serif" font-size="9" fill="rgba(201,168,76,0.5)" text-anchor="middle">海拔 3058m · 华北屋脊</text>
+      <!-- stars -->
+      <circle cx="40" cy="30" r="1.2" fill="white" opacity=".7"/>
+      <circle cx="80" cy="15" r="1" fill="white" opacity=".6"/>
+      <circle cx="200" cy="20" r="1.3" fill="white" opacity=".8"/>
+      <circle cx="260" cy="40" r="1" fill="white" opacity=".6"/>
+      <circle cx="130" cy="10" r="1.1" fill="white" opacity=".7"/>
+      <!-- cloud -->
+      <ellipse cx="160" cy="80" rx="50" ry="15" fill="rgba(255,255,255,0.06)"/>
+      <text x="160" y="210" font-family="serif" font-size="11" fill="rgba(201,168,76,0.6)" text-anchor="middle">华北屋脊 · 俯瞰万山</text>
+    `,
+    label:'🏔 北台叶斗峰'
+  },
+  '显通寺铜殿前': {
+    bg: ['#0E0A05','#251508'],
+    elements: `
+      <rect x="30" y="60" width="260" height="120" rx="4" fill="#2D1B0E" opacity=".9"/>
+      <!-- roof -->
+      <polygon points="20,60 160,20 300,60" fill="#8B1A1A" opacity=".9"/>
+      <polygon points="50,60 160,30 270,60" fill="#A52020" opacity=".8"/>
+      <!-- columns -->
+      <rect x="60" y="60" width="10" height="120" fill="#C9A84C" opacity=".7"/>
+      <rect x="250" y="60" width="10" height="120" fill="#C9A84C" opacity=".7"/>
+      <rect x="130" y="60" width="10" height="120" fill="#C9A84C" opacity=".6"/>
+      <rect x="180" y="60" width="10" height="120" fill="#C9A84C" opacity=".6"/>
+      <!-- door -->
+      <rect x="140" y="100" width="40" height="80" rx="4" fill="#1A0E06"/>
+      <!-- lanterns -->
+      <ellipse cx="100" cy="55" rx="8" ry="11" fill="#C0392B" opacity=".8"/>
+      <ellipse cx="220" cy="55" rx="8" ry="11" fill="#C0392B" opacity=".8"/>
+      <text x="160" y="210" font-family="serif" font-size="11" fill="rgba(201,168,76,0.6)" text-anchor="middle">显通寺 · 五台山祖寺</text>
+    `,
+    label:'⛩ 显通寺'
+  },
+  '东台望海峰云海日出': {
+    bg: ['#0A0510','#1A0820'],
+    elements: `
+      <!-- sky gradient -->
+      <defs><radialGradient id="sun" cx="50%" cy="60%" r="40%"><stop offset="0%" style="stop-color:#FFD580;stop-opacity:0.9"/><stop offset="40%" style="stop-color:#E85020;stop-opacity:0.6"/><stop offset="100%" style="stop-color:#0A0520;stop-opacity:0"/></radialGradient></defs>
+      <rect x="0" y="0" width="320" height="220" fill="url(#sun)"/>
+      <!-- sun -->
+      <circle cx="160" cy="90" r="28" fill="#FFD040" opacity=".9"/>
+      <circle cx="160" cy="90" r="20" fill="#FFE580"/>
+      <!-- cloud sea -->
+      <ellipse cx="80" cy="155" rx="90" ry="22" fill="rgba(255,255,255,0.15)"/>
+      <ellipse cx="200" cy="162" rx="110" ry="26" fill="rgba(255,255,255,0.18)"/>
+      <ellipse cx="50" cy="170" rx="70" ry="18" fill="rgba(255,255,255,0.12)"/>
+      <ellipse cx="270" cy="158" rx="80" ry="20" fill="rgba(255,255,255,0.1)"/>
+      <!-- mountain peak -->
+      <polygon points="100,180 160,120 220,180" fill="rgba(26,18,8,0.6)"/>
+      <text x="160" y="210" font-family="serif" font-size="11" fill="rgba(255,215,100,0.8)" text-anchor="middle">东台望海峰 · 云海日出</text>
+    `,
+    label:'🌅 东台日出'
+  },
+  '菩萨顶俯瞰台怀镇': {
+    bg: ['#0E0A05','#1A1208'],
+    elements: `
+      <!-- sky -->
+      <rect x="0" y="0" width="320" height="110" fill="#1A2A40" opacity=".9"/>
+      <!-- buildings below -->
+      <rect x="20" y="130" width="35" height="60" rx="3" fill="#2D1B0E"/>
+      <rect x="60" y="140" width="28" height="50" rx="3" fill="#241508"/>
+      <rect x="95" y="125" width="32" height="65" rx="3" fill="#2D1B0E"/>
+      <!-- white pagoda -->
+      <rect x="148" y="90" width="24" height="100" rx="4" fill="#E8D9BE" opacity=".85"/>
+      <ellipse cx="160" cy="88" rx="14" ry="14" fill="#F0E6D0"/>
+      <circle cx="160" cy="78" r="6" fill="#C9A84C"/>
+      <rect x="135" y="118" width="50" height="6" rx="2" fill="#D4C090"/>
+      <!-- more buildings -->
+      <rect x="200" y="135" width="30" height="55" rx="3" fill="#241508"/>
+      <rect x="238" y="128" width="36" height="62" rx="3" fill="#2D1B0E"/>
+      <!-- ground -->
+      <ellipse cx="160" cy="195" rx="155" ry="30" fill="#1A1208"/>
+      <text x="160" y="212" font-family="serif" font-size="11" fill="rgba(201,168,76,0.6)" text-anchor="middle">菩萨顶 · 俯瞰台怀镇全景</text>
+    `,
+    label:'🏯 菩萨顶'
+  },
+  '南台锦绣峰花海': {
+    bg: ['#0A1005','#0E1808'],
+    elements: `
+      <!-- sky -->
+      <rect x="0" y="0" width="320" height="120" fill="#1A2A40" opacity=".9"/>
+      <!-- clouds -->
+      <ellipse cx="80" cy="50" rx="55" ry="18" fill="rgba(255,255,255,0.12)"/>
+      <ellipse cx="220" cy="40" rx="65" ry="16" fill="rgba(255,255,255,0.1)"/>
+      <!-- mountain green slope -->
+      <ellipse cx="160" cy="200" rx="170" ry="100" fill="#1A2810"/>
+      <!-- flowers -->
+      <circle cx="60" cy="150" r="5" fill="#E86090" opacity=".8"/>
+      <circle cx="80" cy="145" r="4" fill="#F0A0C0" opacity=".8"/>
+      <circle cx="100" cy="155" r="6" fill="#D040A0" opacity=".7"/>
+      <circle cx="50" cy="162" r="4" fill="#FF80C0" opacity=".8"/>
+      <circle cx="200" cy="148" r="5" fill="#E86090" opacity=".8"/>
+      <circle cx="230" cy="155" r="6" fill="#C9A84C" opacity=".8"/>
+      <circle cx="255" cy="145" r="4" fill="#F0A0C0" opacity=".7"/>
+      <circle cx="120" cy="142" r="5" fill="#FF80C0" opacity=".8"/>
+      <circle cx="140" cy="150" r="4" fill="#D040A0" opacity=".7"/>
+      <circle cx="180" cy="142" r="6" fill="#E86090" opacity=".8"/>
+      <!-- temple small -->
+      <rect x="148" y="118" width="24" height="28" rx="3" fill="#2D1B0E" opacity=".9"/>
+      <polygon points="140,118 160,106 180,118" fill="#8B1A1A" opacity=".9"/>
+      <text x="160" y="210" font-family="serif" font-size="11" fill="rgba(200,240,150,0.7)" text-anchor="middle">南台锦绣峰 · 百花如锦</text>
+    `,
+    label:'🌸 南台花海'
+  }
+};
+
+let currentSelfieScene = null;
+
+function openSelfie(name, icon, desc){
+  currentSelfieScene = name;
+  const scene = selfieScenes[name];
+  document.getElementById('selfieModalTitle').textContent = icon+' '+name;
+  document.getElementById('selfieModalSub').textContent = desc;
+  document.getElementById('selfieFrameLabel').textContent = scene.label;
+  // Build SVG
+  const svg = document.getElementById('selfieSvg');
+  // bg
+  const bgEl = `<defs><linearGradient id="sbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${scene.bg[0]}"/><stop offset="100%" style="stop-color:${scene.bg[1]}"/></linearGradient></defs><rect width="320" height="220" fill="url(#sbg)"/>`;
+  svg.innerHTML = bgEl + scene.elements;
+  document.getElementById('selfieModalBg').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeSelfieModal(e){
+  const bg=document.getElementById('selfieModalBg');
+  if(e && e.target !== bg) return;
+  bg.classList.remove('show');
+  document.body.style.overflow='';
+}
+
+function saveSelfie(){
+  showToast('📤 截图已就绪！长按图片保存分享给好友 🏔');
+  closeSelfieModal(null);
+}
+
+function showToast(msg){
+  const t=document.getElementById('selfieToast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 </script>
 </body>
